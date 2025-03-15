@@ -20,3 +20,7 @@ tasks:
   push:
     cmds:
       - git push -u origin main
+  init: 
+    cmds:
+      - git branch -M main
+      - git remote add origin https://github.com/WhiCu/das-proto.git
