@@ -11,59 +11,53 @@ service DAS {
     rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse);
 }
 
-
-// Общий ответ, содержащий статус выполнения
-message ResponseMetadata {
-    bool status = 1;       // Код статуса (например, 0 для успеха)
-    string message = 2;   // Сообщение об ошибке или описание статуса
-}
-
-// Сущность пользователя
+//структура юзера
 message User {
-    string name = 2;         // Имя пользователя
-    string email = 3;        // Email пользователя
+    string email = 1;
+    string username = 2;
+    bytes password = 3;
 }
 
-// Запрос для получения одного пользователя
+//поиск по почте
 message UserRequest {
     string email = 1;
 }
 
-// Ответ для одного пользователя
+//номер в дб и юзер
 message UserResponse {
-    ResponseMetadata metadata = 1;
+    int32 id = 1;
     User user = 2;
 }
-
-// Запрос для создания пользователя
+//создание через юзера, логично же
 message CreateUserRequest {
     User user = 1;
 }
 
-// Ответ после создания пользователя
+//номер вернется
 message CreateUserResponse {
-    ResponseMetadata metadata = 1;
-    User user = 2;  // Можно вернуть созданного пользователя с присвоенным id
+    int32 id = 1;
 }
 
-// Запрос для обновления пользователя
+//обновление
 message UpdateUserRequest {
-    User user = 1;
+    oneof search_param {
+        string email = 1;
+        int32 id = 2;
+    }
+    User NewUser = 3;
 }
 
-// Ответ после обновления пользователя
 message UpdateUserResponse {
-    ResponseMetadata metadata = 1;
-    User user = 2;
+    int32 id = 1;
 }
 
-// Запрос для удаления пользователя
 message DeleteUserRequest {
-    string id = 1;
+    oneof search_param {
+        string email = 1;
+        int32 id = 2;
+    }
 }
 
-// Ответ после удаления пользователя
 message DeleteUserResponse {
-    ResponseMetadata metadata = 1;
+    int32 id = 1;
 }
-
