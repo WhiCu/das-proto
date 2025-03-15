@@ -1,0 +1,22 @@
+version: '3'
+
+silent: false
+
+tasks:
+  generate:
+    aliases:
+      - gen
+    desc: "Generate code from proto files"
+    cmds: 
+      - protoc
+        -I proto proto/das/das.proto
+        --go_out=./gen/go/
+        --go_opt=paths=source_relative
+        --go-grpc_out=./gen/go/
+        --go-grpc_opt=paths=source_relative
+  add:
+    cmds:
+      - git add .
+  push:
+    cmds:
+      - git push -u origin main

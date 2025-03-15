@@ -1,0 +1,69 @@
+syntax = "proto3";
+
+package das;
+
+option go_package = "github.com/WhiCu/das-proto/gen/go/das";
+
+service DAS {
+    rpc User(UserRequest) returns (UserResponse);
+    rpc CreateUser(CreateUserRequest) returns (CreateUserResponse);
+    rpc UpdateUser(UpdateUserRequest) returns (UpdateUserResponse);
+    rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse);
+}
+
+
+// Общий ответ, содержащий статус выполнения
+message ResponseMetadata {
+    bool status = 1;       // Код статуса (например, 0 для успеха)
+    string message = 2;   // Сообщение об ошибке или описание статуса
+}
+
+// Сущность пользователя
+message User {
+    string name = 2;         // Имя пользователя
+    string email = 3;        // Email пользователя
+}
+
+// Запрос для получения одного пользователя
+message UserRequest {
+    string id = 1;
+}
+
+// Ответ для одного пользователя
+message UserResponse {
+    ResponseMetadata metadata = 1;
+    User user = 2;
+}
+
+// Запрос для создания пользователя
+message CreateUserRequest {
+    User user = 1;
+}
+
+// Ответ после создания пользователя
+message CreateUserResponse {
+    ResponseMetadata metadata = 1;
+    User user = 2;  // Можно вернуть созданного пользователя с присвоенным id
+}
+
+// Запрос для обновления пользователя
+message UpdateUserRequest {
+    User user = 1;
+}
+
+// Ответ после обновления пользователя
+message UpdateUserResponse {
+    ResponseMetadata metadata = 1;
+    User user = 2;
+}
+
+// Запрос для удаления пользователя
+message DeleteUserRequest {
+    string id = 1;
+}
+
+// Ответ после удаления пользователя
+message DeleteUserResponse {
+    ResponseMetadata metadata = 1;
+}
+
